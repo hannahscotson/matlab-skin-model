@@ -32,7 +32,7 @@ This repository contains the MATLAB code used to simulate and analyse the force 
    - Statistics and Machine Learning Toolbox (for classification models).
 3. Open and run the **main_simulation.m** script with the flags activated that correspond to the desired functions.
 
-## Referneces
+## References
 [1] U. B. Rongala, A. Seyfarth, V. Hayward and H. Jörntell, “The Import of Skin Tissue Dynamics in Tactile Sensing,” Cell Reports Physical Science, vol. 5, no. 5, 2024. 
 
 [2] P. Uttayopas, X. Cheng, J. Eden and E. Burdet, “Object Recognition Using Mechanical Impact, Viscoelasticity, and Surface Friction During Interaction,” IEEE Transactions on Haptics, vol. 16, no. 2, pp. 251-260, 2023. 
