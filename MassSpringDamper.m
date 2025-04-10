@@ -1,17 +1,16 @@
 function v=MassSpringDamper(ts,x,K,D,M,nMass,FxDyy,tFx,nDoF)
-
-% DEBUGGING
-    disp(['Solving at t = ', num2str(ts)]);
-    pause(0.1); % Small delay to see output
-    % Your function code...
-
-A = [zeros(nMass*nDoF) eye(nMass*nDoF);-inv(M)*(K) -inv(M)*D];
-
-b = [zeros(nMass*nDoF);inv(M)];
-
-Fx = interp1(tFx,FxDyy',ts); Fx = Fx';
-
-v = (A*x) + (b*Fx);
+    % DEBUGGING
+        disp(['Solving at t = ', num2str(ts)]);
+        pause(0.1); % Small delay to see output
+        % Your function code...
+    
+    A = [zeros(nMass*nDoF) eye(nMass*nDoF);-inv(M)*(K) -inv(M)*D];
+    
+    b = [zeros(nMass*nDoF);inv(M)];
+    
+    Fx = interp1(tFx,FxDyy',ts); Fx = Fx';
+    
+    v = (A*x) + (b*Fx);
 
 end
 

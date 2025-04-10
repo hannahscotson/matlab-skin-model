@@ -4,7 +4,7 @@ function [accuracy, confMat] = modelClassification(model_FSR_noisy)
     num_rows = size(model_FSR_noisy, 1);
     num_trials = size(model_FSR_noisy, 2); % Automatically detect number of trials per row
 
-    % Initialize storage
+    % Initialise storage
     data = [];
     labels = [];
     label_mapping = 1:num_rows;
@@ -22,7 +22,7 @@ function [accuracy, confMat] = modelClassification(model_FSR_noisy)
             % Find all timesteps where the maximum value occurs (may be multiple)
             max_timesteps = find(max_per_timestep == max_value); 
 
-            % Initialize a variable to track the timestep with the highest average FSR
+            % Initialise a variable to track the timestep with the highest average FSR
             avg_fsr_per_timestep = zeros(length(max_timesteps), 1);
             
             % Calculate the average FSR value across all 256 features for each of those timesteps
@@ -73,9 +73,9 @@ function [accuracy, confMat] = modelClassification(model_FSR_noisy)
     X_test = data(testIdx, :);
     Y_test = labels(testIdx);
 
-    % Standardize the data manually
-    X_train = normalize(X_train); % Standardize training data
-    X_test = normalize(X_test);   % Standardize test data
+    % Standardise the data manually
+    X_train = normalize(X_train); % Standardise training data
+    X_test = normalize(X_test);   % Standardise test data
 
     % Train SVM classifier using fitcecoc for multi-class classification
     SVMModel = fitcecoc(X_train, Y_train, 'Learners', 'Linear', 'Coding', 'onevsall');

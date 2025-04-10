@@ -1,5 +1,4 @@
-function [f] = NewLetterStimulus(nMass, nDoF, InputForce, boundaryNodes)
-
+function [f] = LetterStimulus(nMass, nDoF, InputForce, boundaryNodes)
     % Force application using Indent case
     f = zeros(nMass * nDoF, 1); % Initialize the force vector
     idxMass = 1:nDoF:nMass*nDoF; % Get starting indices for all nodes

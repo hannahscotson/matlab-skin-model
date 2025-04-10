@@ -2,7 +2,7 @@ function [model_FSR_trials] = addTrials(numTrialsNoise)
     % Load stored model response
     load('model_FSR_normalised.mat', 'model_FSR');
 
-    % Initialise a new cell array to store noisy trials
+    % Initialise a new cell array to store new trials
     model_FSR_trials = cell(size(model_FSR, 1), numTrialsNoise); 
 
     % Add random noise with varying intensity

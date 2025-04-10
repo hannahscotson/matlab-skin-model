@@ -1,10 +1,10 @@
 %% Setup
-% clearvars
-% clc
+clearvars
+clc
 % Generate a trial for model response data
 generateModelFlg = 0;
 % Generate a trial for model response data (temporal response, one combination)
-generateSpecificModelFlg = 1;
+generateSpecificModelFlg = 0;
 
 % Complete classification for data response
 dataClassFlg = 0;
@@ -17,6 +17,8 @@ plotFlg = 0;
 dataMapFlg = 0;
 % Generate heatmap for selected model response
 modelMapFlg = 0;
+% Generate heatmap for selected model response (temporal response, one combination)
+modelTempMapFlg = 1;
 
 %% Skin model parameters
 % Indentation force
@@ -49,12 +51,21 @@ if generateModelFlg == 1
     generateModel(nNodes, nMass, nDoF, nTriangles, nMeshNodes, InputForce, InpM, InputSigma, v, p);
 end
 
-%% Regerate Q
-%updateQModelFSR(nNodes, nMass, nDoF, nTriangles, nMeshNodes, InputForce, InpM, InputSigma, v, p);
-
 %% Generate model response for 1 combinations, 1 trial, response over time
 if generateSpecificModelFlg == 1
-    generateModelForSpecificCondition(nNodes, nMass, nDoF, nTriangles, nMeshNodes, InputForce, InpM, InputSigma, v, p, 'C', 'Medium');
+    generateModelForSpecificCondition(nNodes, nMass, nDoF, nTriangles, nMeshNodes, InputForce, InpM, InputSigma, v, p);
+end
+if modelTempMapFlg == 1
+    letter = 'C';
+    hardness = 'Medium';
+    time_indices = [0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24];
+    
+    load('model_FSR_full_response.mat', 'reshaped_response', 'ts');
+
+    % Use interpolation to get the closest indices for the time values
+    time_idx = round(interp1(ts, 1:length(ts), time_indices, 'nearest'));
+
+    modelHeatmapTemporal(reshaped_response, ts, time_idx, letter, hardness);
 end
 %% Define boundary nodes for each letter
 boundaryNodesSet.C = [38 39 40 41 53 58 68 75 83 92 99 115 131 147 163 172 180 187 197 202 214 215 216 217];
@@ -75,18 +86,6 @@ model_FSR_noisy = addNoise(numTrialsNoise, surroundingNodes);
 
 % Save noisy model
 save('model_FSR_noisy.mat', 'model_FSR_noisy');
-
-% %% Generate more trials for model response with noise
-% % Set desired number of trials
-% numTrialsNoise = 25; 
-% % Get response
-% [model_FSR_noisy] = addNoise(numTrialsNoise);
-
-% %% Generate more trials for model response withOUT noise
-% % Set desired number of trials
-% numTrialsNoise = 25; 
-% % Get response
-% [model_FSR_trials] = addTrials(numTrialsNoise);
 
 %% Perform Classification for model response
 if modelClassFlg == 1
@@ -221,69 +220,3 @@ if dataMapFlg == 1
 
     dataHeatmap(trial_data);
 end
-
-%% Basic 3D scatter of nodes
-figure;
-hold on; grid on; axis equal;
-title('Simplified Skin Model: Inter-layer Connections');
-xlabel('X'); ylabel('Y'); zlabel('Z');
-
-% Plot nodes, color by layer
-scatter3(x(layer1_idx), y(layer1_idx), z(layer1_idx), 30, 'r', 'filled');
-scatter3(x(layer2_idx), y(layer2_idx), z(layer2_idx), 30, 'g', 'filled');
-scatter3(x(layer3_idx), y(layer3_idx), z(layer3_idx), 30, 'b', 'filled');
-
-% Plot only vertical (inter-layer) connections
-nLayerNodes = numel(layer1_idx);
-for i = 1:nLayerNodes
-    pt1 = p(layer1_idx(i), :);
-    pt2 = p(layer2_idx(i), :);
-    pt3 = p(layer3_idx(i), :);
-
-    % Layer 1 to Layer 2
-    plot3([pt1(1), pt2(1)], [pt1(2), pt2(2)], [pt1(3), pt2(3)], 'k--');
-
-    % Layer 2 to Layer 3
-    plot3([pt2(1), pt3(1)], [pt2(2), pt3(2)], [pt2(3), pt3(3)], 'k--');
-end
-
-legend('Layer 1', 'Layer 2', 'Layer 3', 'Inter-layer Connections');
-
-%% Visualise mass node connections across the three layers
-
-% Extract 3D coordinates of each mass point
-x = p(:,1); y = p(:,2); z = p(:,3);
-
-% Plot nodes
-figure;
-scatter3(x, y, z, 30, 'filled'); hold on;
-title('3D Mass Node Network with Layer Connections');
-xlabel('X'); ylabel('Y'); zlabel('Z');
-grid on; axis equal;
-
-% Color by layer (optional)
-colors = lines(3); % For 3 layers
-
-% Define layer ranges based on node count
-layer1_idx = 1:nNodes.FirLay;
-layer2_idx = (nNodes.FirLay+1):(nNodes.FirLay+nNodes.SecLay);
-layer3_idx = (nNodes.FirLay+nNodes.SecLay+1):nMass;
-
-% Plot different layers in different colors
-scatter3(x(layer1_idx), y(layer1_idx), z(layer1_idx), 40, colors(1,:), 'filled');
-scatter3(x(layer2_idx), y(layer2_idx), z(layer2_idx), 40, colors(2,:), 'filled');
-scatter3(x(layer3_idx), y(layer3_idx), z(layer3_idx), 40, colors(3,:), 'filled');
-
-% Plot connections (springs) from triangles
-for i = 1:size(v,1)
-    tri_nodes = v(i,:);
-    for j = 1:3
-        for k = j+1:3
-            pt1 = p(tri_nodes(j), :);
-            pt2 = p(tri_nodes(k), :);
-            plot3([pt1(1), pt2(1)], [pt1(2), pt2(2)], [pt1(3), pt2(3)], 'k-');
-        end
-    end
-end
-
-legend('All Nodes', 'Layer 1', 'Layer 2', 'Layer 3', 'Connections');

@@ -1,5 +1,5 @@
 function surroundingNodes = findSurroundingNodes(boundaryNodesSet, v)
-    % Initialize storage structure for all letters
+    % Initialise storage structure for all letters
     letters = fieldnames(boundaryNodesSet);
     surroundingNodes = struct();
 
@@ -8,7 +8,7 @@ function surroundingNodes = findSurroundingNodes(boundaryNodesSet, v)
         letter = letters{i};
         boundaryNodes = boundaryNodesSet.(letter);
         
-        % Initialize an empty array for surrounding nodes
+        % Initialise an empty array for surrounding nodes
         surroundingNodesForLetter = [];
         
         for k = 1:length(boundaryNodes)

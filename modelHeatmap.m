@@ -1,12 +1,12 @@
 function modelHeatmap(first_trial_data, letter, hardness)
-heatmap_matrix = reshape(first_trial_data, [16, 16]);
-heatmap_matrix = (max(heatmap_matrix(:)) - heatmap_matrix) / (max(heatmap_matrix(:)) - min(heatmap_matrix(:))); % Normalise to [0 1]
-
-figure;
-imagesc(heatmap_matrix);
-colormap(jet);
-colorbar;
-title(sprintf('%s %s', hardness, letter));
+    heatmap_matrix = reshape(first_trial_data, [16, 16]);
+    heatmap_matrix = (max(heatmap_matrix(:)) - heatmap_matrix) / (max(heatmap_matrix(:)) - min(heatmap_matrix(:))); % Normalise to [0 1]
+    
+    figure;
+    imagesc(heatmap_matrix);
+    colormap(jet);
+    colorbar;
+    title(sprintf('%s %s', hardness, letter));
 end
 
 
