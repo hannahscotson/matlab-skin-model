@@ -1,6 +1,6 @@
-# MATLAB Electronic Skin Model
+# Electronic Skin Model - Implemented in MATLAB
 
-This repository contains the MATLAB code used to simulate and analyze the force response of an electronic skin model. The model consists of 677 masses and 256 nodes, which are arranged in a 16x16 grid, simulating tactile sensing for various textures and hardness levels.
+This repository contains the MATLAB code used to simulate and analyse the force response of an electronic skin model. This model is an expanded version of the model originally developed by [1] and was modified to reflect the real-life experiment developed in [2]. The code features functionality to generate simulated model force data, to perform classification for both simulated and experimental data, and to generate corresponding visualisations of data such as heatmaps and animation plots. Please find the file descriptions below as well as the references that were used to develop the model.
 
 ## Files
 
@@ -30,16 +30,8 @@ This repository contains the MATLAB code used to simulate and analyze the force 
 1. Download or clone this repository.
 2. Ensure MATLAB is installed and that you have the necessary toolboxes:
    - Statistics and Machine Learning Toolbox (for classification models).
-3. Place the data files in the `data/` directory.
-4. Open and run the **main_simulation.m** script to simulate the electronic skin's response.
+3. Open and run the **main_simulation.m** script with the flags activated that correspond to the desired functions.
 
-## How to Run the Code
-
-To run the simulation:
-1. Open MATLAB and navigate to the directory containing this repository.
-2. Run the `main_simulation.m` script.
-3. Modify parameters or data paths as needed to customize the simulation.
-
-## License
-
-This repository is licensed under the MIT License.
+## Referneces
+[1] U. B. Rongala, A. Seyfarth, V. Hayward and H. Jörntell, “The Import of Skin Tissue Dynamics in Tactile Sensing,” Cell Reports Physical Science, vol. 5, no. 5, 2024. 
+[2] P. Uttayopas, X. Cheng, J. Eden and E. Burdet, “Object Recognition Using Mechanical Impact, Viscoelasticity, and Surface Friction During Interaction,” IEEE Transactions on Haptics, vol. 16, no. 2, pp. 251-260, 2023. 
